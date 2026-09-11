@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ActionEnvelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["tenant_id", "principal_id", "actor_type", "session_id", "delegation_id", "source", "adapter", "transaction_id", "parent_action_id", "domain", "action_type", "requested_effect", "resource", "destination", "repository", "base_sha", "patch_sha256", "evidence"],
+  "properties": {
+    "tenant_id": {"type": "string", "minLength": 1},
+    "principal_id": {"type": "string", "minLength": 1},
+    "actor_type": {"enum": ["human", "service", "agent"]},
+    "session_id": {"type": "string", "minLength": 1},
+    "delegation_id": {"type": ["string", "null"]},
+    "source": {"type": "string", "minLength": 1},
+    "adapter": {"type": "string", "minLength": 1},
+    "transaction_id": {"type": "string", "minLength": 1},
+    "parent_action_id": {"type": ["string", "null"]},
+    "domain": {"type": "string", "minLength": 1},
+    "action_type": {"type": "string", "minLength": 1},
+    "requested_effect": {"type": "string", "minLength": 1},
+    "resource": {"type": "string", "minLength": 1},
+    "destination": {"type": "string", "minLength": 1},
+    "repository": {"type": "string", "minLength": 1},
+    "base_sha": {"type": "string", "minLength": 7},
+    "patch_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source", "ref", "sha256"],
+        "properties": {
+          "source": {"type": "string"},
+          "ref": {"type": "string"},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    }
+  }
+}

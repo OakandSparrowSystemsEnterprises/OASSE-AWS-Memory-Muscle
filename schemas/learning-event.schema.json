@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LearningEvent",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_id", "run_id", "repository", "base_sha", "failure_signature", "diagnosis", "remediation_summary", "patch_sha256", "test_evidence", "security_evidence", "authority_decision_id", "authority_receipt_ref", "success"],
+  "properties": {
+    "event_id": {"type": "string", "minLength": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "repository": {"type": "string", "minLength": 1},
+    "base_sha": {"type": "string", "minLength": 7},
+    "failure_signature": {"type": "string", "minLength": 1},
+    "diagnosis": {"type": "string", "minLength": 1},
+    "remediation_summary": {"type": "string", "minLength": 1},
+    "patch_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "test_evidence": {"type": "array"},
+    "security_evidence": {"type": "array"},
+    "authority_decision_id": {"type": "string", "minLength": 1},
+    "authority_receipt_ref": {"type": ["string", "null"]},
+    "success": {"type": "boolean"}
+  }
+}

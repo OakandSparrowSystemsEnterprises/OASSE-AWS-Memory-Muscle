@@ -1,0 +1,26 @@
+{
+  "project": "oasse-memory-muscle",
+  "authority": {
+    "provider": "gatekeeper-v2-external",
+    "authoritative": true,
+    "journal_semantics": "single-writer",
+    "allowed_verdicts": ["ALLOW", "TRANSFORM", "HOLD", "DENY"]
+  },
+  "planes": {
+    "rocketride": {"role": "control-plane", "required": true, "authoritative": false},
+    "cognee": {"role": "semantic-memory", "required": true, "authoritative": false},
+    "hydradb": {"role": "durable-graph", "required": true, "authoritative": false},
+    "hotdata": {"role": "live-state-and-analytics", "required": true, "authoritative": false},
+    "rote": {"role": "procedure-memory", "required": true, "authoritative": false},
+    "snyk": {"role": "security-evidence", "required": true, "authoritative": false},
+    "tenki": {"role": "isolated-compute", "required": false, "authoritative": false},
+    "github_effect": {"role": "controlled-effect", "required": true, "authoritative": false}
+  },
+  "constraints": {
+    "tenki_has_unrestricted_github_write_credential": false,
+    "sponsor_state_may_write_gatekeeper_journal": false,
+    "prior_authorization_may_be_reused": false,
+    "rote_replay_requires_fresh_authorization": true,
+    "support_plane_failure_implies_allow": false
+  }
+}
