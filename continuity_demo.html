@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Continuity MVP</title>
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#e8e8e8;background:#0b0d10}
+body{margin:0;background:radial-gradient(circle at top,#161a20 0,#0b0d10 55%);min-height:100vh}
+main{max-width:1100px;margin:0 auto;padding:56px 24px 72px}
+.eyebrow{letter-spacing:.14em;text-transform:uppercase;font-size:12px;color:#9aa4b2}
+h1{font-size:clamp(40px,7vw,78px);line-height:.95;margin:12px 0 18px}
+.lede{font-size:20px;line-height:1.5;color:#c9d1d9;max-width:800px}
+.panel{margin-top:34px;background:#11151a;border:1px solid #29313a;border-radius:18px;padding:24px;box-shadow:0 16px 50px rgba(0,0,0,.35)}
+.state{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.metric{background:#0d1117;border:1px solid #222a33;border-radius:14px;padding:16px}
+.metric small{display:block;color:#8b949e;margin-bottom:8px}
+.metric strong{font-size:20px}
+button{margin-top:22px;background:#f0f3f6;color:#111;border:0;border-radius:12px;padding:13px 18px;font-weight:700;cursor:pointer}
+button:disabled{opacity:.45;cursor:default}
+.step{display:grid;grid-template-columns:170px 110px 1fr;gap:14px;align-items:center;padding:16px 0;border-top:1px solid #222a33}
+.step:first-child{border-top:0}
+.provider{font-weight:700}
+.badge{display:inline-block;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;background:#1b2730}
+.allow{background:#163023}.deny{background:#351d22}
+.desc{color:#b8c0ca;line-height:1.45}
+.digest{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:#8b949e;word-break:break-all}
+.note{margin-top:20px;color:#8b949e;font-size:13px;line-height:1.5}
+@media(max-width:760px){.state{grid-template-columns:1fr 1fr}.step{grid-template-columns:1fr}.provider{margin-top:4px}}
+</style>
+</head>
+<body>
+<main>
+<div class="eyebrow">Oak & Sparrow Systems Enterprise</div>
+<h1>Continuity</h1>
+<p class="lede">One authoritative cognitive lineage moves across different model substrates without becoming separate memories. Models may contribute. They do not own the lineage.</p>
+<section class="panel">
+<div class="state">
+<div class="metric"><small>Lineage</small><strong id="lineage">continuity-rupert-demo-001</strong></div>
+<div class="metric"><small>Revision</small><strong id="revision">0</strong></div>
+<div class="metric"><small>Active unresolved item</small><strong id="open">PRESERVED</strong></div>
+<div class="metric"><small>Continuity score</small><strong id="score">1.0</strong></div>
+</div>
+<button id="next">Run next handoff</button>
+<div id="steps" style="margin-top:22px"></div>
+<div class="note">This is the deterministic local conformance replay. It uses the same lineage rules as the Python MVP and requires no network or API keys. The live runner is separate because provider credentials must not be embedded in a browser demo.</div>
+</section>
+</main>
+<script>
+const sequence=[
+ {provider:"OpenAI / GPT",decision:"ALLOW",revision:1,desc:"Receives the authoritative state, preserves the unresolved question, and adds evidence to the same lineage.",digest:"b8b67a190fcad36012f1e0f1126c64e8"},
+ {provider:"Anthropic / Claude",decision:"ALLOW",revision:2,desc:"Continues the same lineage and adds a falsification condition without rewriting prior state.",digest:"4f7e303ede34ffff71c5547163c8c52c"},
+ {provider:"Google / Gemini",decision:"DENY",revision:2,desc:"Attempts to delete the unresolved question. Continuity refuses the mutation. Revision and authoritative state remain unchanged.",digest:"4f7e303ede34ffff71c5547163c8c52c"}
+];
+let idx=0;
+const next=document.getElementById("next");
+next.onclick=()=>{
+ if(idx>=sequence.length)return;
+ const s=sequence[idx++];
+ const row=document.createElement("div");
+ row.className="step";
+ row.innerHTML='<div class="provider">'+s.provider+'</div><div><span class="badge '+(s.decision==="ALLOW"?"allow":"deny")+'">'+s.decision+'</span></div><div><div class="desc">'+s.desc+'</div><div class="digest">state '+s.digest+'</div></div>';
+ document.getElementById("steps").appendChild(row);
+ document.getElementById("revision").textContent=s.revision;
+ document.getElementById("score").textContent="1.0";
+ document.getElementById("open").textContent="PRESERVED";
+ if(idx===sequence.length){next.textContent="Replay complete";next.disabled=true;}
+};
+</script>
+</body>
+</html>
