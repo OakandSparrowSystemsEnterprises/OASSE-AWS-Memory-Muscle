@@ -1,3 +1,21 @@
+# Continuity MVP
+
+The runnable Continuity MVP is on the `continuity-mvp` branch.
+
+**Fastest demo:** open `continuity_demo.html` in a browser.
+
+**Windows:** double-click `RUN_CONTINUITY_MVP.bat`.
+
+**Python:** run `python RUN_CONTINUITY_MVP.py`.
+
+**Live frontier-model handoff:** configure provider API keys, then run `python RUN_LIVE_CONTINUITY.py`.
+
+The deterministic demo shows one authoritative lineage moving from OpenAI to Anthropic to Google. The first two transitions advance the same lineage. The third attempts to delete unresolved state and is denied, leaving the authoritative state unchanged.
+
+Full Continuity design notes are in `docs/CONTINUITY_MVP.md`.
+
+---
+
 # OASSE AWS Memory to Muscle
 
 Oak & Sparrow Systems Enterprise LLC entry for the September 11, 2026 AWS Data & AI Hackathon.
