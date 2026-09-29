@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0d10">
+<title>Continuity MVP</title>
+<style>
+*{box-sizing:border-box}
+html{background:#0b0d10;-webkit-text-size-adjust:100%}
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#e8e8e8;background:#0b0d10}
+body{margin:0;background:radial-gradient(circle at top,#161a20 0,#0b0d10 55%);min-height:100svh;overflow-x:hidden}
+main{width:min(100%,1100px);margin:0 auto;padding:48px 20px calc(96px + env(safe-area-inset-bottom))}
+.eyebrow{letter-spacing:.13em;text-transform:uppercase;font-size:11px;line-height:1.4;color:#9aa4b2}
+h1{font-size:clamp(44px,13vw,78px);line-height:.94;margin:12px 0 18px;letter-spacing:-.04em}
+.lede{font-size:18px;line-height:1.48;color:#c9d1d9;max-width:800px;margin:0}
+.panel{margin-top:28px;background:#11151a;border:1px solid #29313a;border-radius:18px;padding:20px;box-shadow:0 16px 50px rgba(0,0,0,.35);width:100%;overflow:hidden}
+.state{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.metric{min-width:0;background:#0d1117;border:1px solid #222a33;border-radius:14px;padding:16px}
+.metric small{display:block;color:#8b949e;margin-bottom:8px;font-size:12px;line-height:1.35}
+.metric strong{display:block;font-size:19px;line-height:1.15;overflow-wrap:anywhere;word-break:break-word}
+.action-wrap{margin-top:20px}
+button{width:auto;min-height:48px;background:#f0f3f6;color:#111;border:0;border-radius:12px;padding:13px 18px;font:inherit;font-weight:800;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button:active{transform:translateY(1px)}
+button:disabled{opacity:.45;cursor:default;transform:none}
+#steps{margin-top:20px}
+.step{display:grid;grid-template-columns:170px 110px minmax(0,1fr);gap:14px;align-items:center;padding:18px 0;border-top:1px solid #222a33}
+.step:first-child{border-top:0}
+.provider{font-weight:800;line-height:1.3}
+.badge{display:inline-block;padding:7px 10px;border-radius:999px;font-size:12px;font-weight:900;background:#1b2730}
+.allow{background:#163023}.deny{background:#351d22}
+.desc{color:#b8c0ca;line-height:1.48}
+.digest{margin-top:8px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;line-height:1.45;color:#8b949e;overflow-wrap:anywhere;word-break:break-word}
+.note{margin-top:20px;color:#8b949e;font-size:12px;line-height:1.55}
+.mobile-label{display:none}
+@media(max-width:760px){
+  main{padding:30px 14px calc(104px + env(safe-area-inset-bottom))}
+  h1{font-size:clamp(48px,17vw,72px)}
+  .lede{font-size:17px}
+  .panel{margin-top:24px;padding:14px;border-radius:16px}
+  .state{grid-template-columns:1fr 1fr;gap:9px}
+  .metric{padding:13px}
+  .metric strong{font-size:16px}
+  .metric:first-child{grid-column:1/-1}
+  .step{grid-template-columns:1fr;gap:9px;padding:17px 2px}
+  .provider{font-size:17px}
+  .desc{font-size:15px}
+  .mobile-label{display:inline}
+  .action-wrap{
+    position:sticky;
+    bottom:calc(10px + env(safe-area-inset-bottom));
+    z-index:10;
+    padding-top:10px;
+    background:linear-gradient(to bottom,rgba(17,21,26,0),#11151a 28%);
+  }
+  button{width:100%;min-height:54px;border-radius:14px;font-size:16px;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+}
+@media(max-width:390px){
+  .state{grid-template-columns:1fr}
+  .metric:first-child{grid-column:auto}
+  main{padding-left:10px;padding-right:10px}
+  .panel{padding:12px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{scroll-behavior:auto!important;transition:none!important}
+  button:active{transform:none}
+}
+</style>
+</head>
+<body>
+<main>
+<div class="eyebrow">Oak & Sparrow Systems Enterprise</div>
+<h1>Continuity</h1>
+<p class="lede">One authoritative cognitive lineage moves across different model substrates without becoming separate memories. Models may contribute. They do not own the lineage.</p>
+
+<section class="panel">
+<div class="state">
+<div class="metric"><small>Lineage</small><strong id="lineage">continuity-rupert-demo-001</strong></div>
+<div class="metric"><small>Revision</small><strong id="revision">0</strong></div>
+<div class="metric"><small>Active unresolved item</small><strong id="open">PRESERVED</strong></div>
+<div class="metric"><small>Continuity score</small><strong id="score">1.0</strong></div>
+</div>
+
+<div class="action-wrap"><button id="next" type="button">Run next handoff</button></div>
+<div id="steps" aria-live="polite"></div>
+
+<div class="note">Phone demo: tap the button three times. The first two model handoffs advance the same lineage. The third attempts to delete unresolved state and is denied without changing the authoritative state.</div>
+</section>
+</main>
+
+<script>
+const sequence=[
+ {provider:"OpenAI / GPT",decision:"ALLOW",revision:1,desc:"Receives the authoritative state, preserves the unresolved question, and adds evidence to the same lineage.",digest:"b8b67a190fcad36012f1e0f1126c64e8"},
+ {provider:"Anthropic / Claude",decision:"ALLOW",revision:2,desc:"Continues the same lineage and adds a falsification condition without rewriting prior state.",digest:"4f7e303ede34ffff71c5547163c8c52c"},
+ {provider:"Google / Gemini",decision:"DENY",revision:2,desc:"Attempts to delete the unresolved question. Continuity refuses the mutation. Revision and authoritative state remain unchanged.",digest:"4f7e303ede34ffff71c5547163c8c52c"}
+];
+let idx=0;
+const next=document.getElementById("next");
+next.onclick=()=>{
+ if(idx>=sequence.length)return;
+ const s=sequence[idx++];
+ const row=document.createElement("div");
+ row.className="step";
+ row.innerHTML='<div class="provider">'+s.provider+'</div><div><span class="badge '+(s.decision==="ALLOW"?"allow":"deny")+'">'+s.decision+'</span></div><div><div class="desc">'+s.desc+'</div><div class="digest"><span class="mobile-label">State: </span>'+s.digest+'</div></div>';
+ document.getElementById("steps").appendChild(row);
+ document.getElementById("revision").textContent=s.revision;
+ document.getElementById("score").textContent="1.0";
+ document.getElementById("open").textContent="PRESERVED";
+ row.scrollIntoView({behavior:"smooth",block:"nearest"});
+ if(idx===sequence.length){next.textContent="Replay complete";next.disabled=true;}
+ else{next.textContent="Run handoff "+(idx+1)+" of "+sequence.length;}
+};
+</script>
+</body>
+</html>
